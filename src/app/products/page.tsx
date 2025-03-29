@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Products() {
   const products = [
@@ -70,6 +71,8 @@ export default function Products() {
                     alt={product.name}
                     fill
                     className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    quality={85}
                   />
                 </div>
                 <div className="p-6">

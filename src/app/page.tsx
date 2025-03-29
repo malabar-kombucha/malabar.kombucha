@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -12,6 +13,8 @@ export default function Home() {
             fill
             className="object-cover brightness-50"
             priority
+            sizes="100vw"
+            quality={90}
           />
         </div>
         <div className="container mx-auto px-4 z-10">
@@ -25,12 +28,12 @@ export default function Home() {
               Discover our premium, organic kombucha crafted with traditional methods and the finest ingredients.
             </p>
             <div className="flex gap-4">
-              <a href="/products" className="btn-primary">
+              <Link href="/products" className="btn-primary">
                 Explore Our Flavors
-              </a>
-              <a href="/about" className="btn-secondary text-white border-white hover:bg-white/10">
+              </Link>
+              <Link href="/about" className="btn-secondary text-white border-white hover:bg-white/10">
                 Learn More
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -102,6 +105,8 @@ export default function Home() {
                     alt={flavor.name}
                     fill
                     className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    quality={85}
                   />
                 </div>
                 <div className="p-6">
@@ -112,9 +117,9 @@ export default function Home() {
             ))}
           </div>
           <div className="text-center mt-12">
-            <a href="/products" className="btn-primary">
+            <Link href="/products" className="btn-primary">
               View All Flavors
-            </a>
+            </Link>
           </div>
         </div>
       </section>
