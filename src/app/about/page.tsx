@@ -4,7 +4,7 @@ export default function About() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-20 bg-gray-50">
+      <section className="relative py-12 sm:py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <h1 className="section-title text-center">Our Story</h1>
           <p className="section-subtitle">
@@ -14,26 +14,28 @@ export default function About() {
       </section>
 
       {/* Story Section */}
-      <section className="py-20">
+      <section className="py-12 sm:py-20">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div className="relative h-[400px] rounded-lg overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 items-center">
+            <div className="relative h-[300px] sm:h-[400px] rounded-lg overflow-hidden">
               <Image
                 src="/about-brewing.jpg"
                 alt="Our brewing process"
                 fill
                 className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                quality={85}
               />
             </div>
             <div>
-              <h2 className="text-3xl font-bold mb-6">Our Journey</h2>
-              <p className="text-gray-600 mb-6">
+              <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">Our Journey</h2>
+              <p className="text-gray-600 text-sm sm:text-base mb-4 sm:mb-6">
                 Founded in 2020, Malabar Kombucha began as a passion project in a small kitchen. What started as a personal quest for the perfect kombucha has grown into a thriving business that serves our community with handcrafted, organic kombucha.
               </p>
-              <p className="text-gray-600 mb-6">
+              <p className="text-gray-600 text-sm sm:text-base mb-4 sm:mb-6">
                 Our commitment to quality and traditional brewing methods has earned us a loyal following of health-conscious individuals who appreciate the authentic taste and benefits of our kombucha.
               </p>
-              <p className="text-gray-600">
+              <p className="text-gray-600 text-sm sm:text-base">
                 Today, we continue to innovate while staying true to our roots, creating unique flavors that delight our customers and promote wellness.
               </p>
             </div>
@@ -42,10 +44,10 @@ export default function About() {
       </section>
 
       {/* Values Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-12 sm:py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="section-title text-center">Our Values</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-12">
             <div className="text-center">
               <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -53,7 +55,7 @@ export default function About() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold mb-2">Quality First</h3>
-              <p className="text-gray-600">We never compromise on quality, using only the finest ingredients and traditional brewing methods.</p>
+              <p className="text-gray-600 text-sm sm:text-base">We never compromise on quality, using only the finest ingredients and traditional brewing methods.</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -62,7 +64,7 @@ export default function About() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold mb-2">Sustainability</h3>
-              <p className="text-gray-600">We're committed to sustainable practices, from sourcing ingredients to packaging and distribution.</p>
+              <p className="text-gray-600 text-sm sm:text-base">We're committed to sustainable practices, from sourcing ingredients to packaging and distribution.</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -71,17 +73,17 @@ export default function About() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold mb-2">Community</h3>
-              <p className="text-gray-600">We believe in building a community of health-conscious individuals who share our passion for quality kombucha.</p>
+              <p className="text-gray-600 text-sm sm:text-base">We believe in building a community of health-conscious individuals who share our passion for quality kombucha.</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Team Section */}
-      <section className="py-20">
+      <section className="py-12 sm:py-20">
         <div className="container mx-auto px-4">
           <h2 className="section-title text-center">Meet Our Team</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
             {[
               {
                 name: "Sarah Johnson",
@@ -100,16 +102,18 @@ export default function About() {
               }
             ].map((member, index) => (
               <div key={index} className="text-center">
-                <div className="relative w-48 h-48 mx-auto mb-4 rounded-full overflow-hidden">
+                <div className="relative w-40 h-40 sm:w-48 sm:h-48 mx-auto mb-4 rounded-full overflow-hidden">
                   <Image
                     src={member.image}
                     alt={member.name}
                     fill
                     className="object-cover"
+                    sizes="(max-width: 640px) 160px, 192px"
+                    quality={85}
                   />
                 </div>
-                <h3 className="text-xl font-semibold mb-1">{member.name}</h3>
-                <p className="text-gray-600">{member.role}</p>
+                <h3 className="text-lg sm:text-xl font-semibold mb-1">{member.name}</h3>
+                <p className="text-gray-600 text-sm sm:text-base">{member.role}</p>
               </div>
             ))}
           </div>
