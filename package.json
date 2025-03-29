@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "bunx --bun next dev",
-    "build": "bunx --bun next build",
+    "build": "bunx --bun next build && cp -r public out/",
     "start": "bunx --bun next start",
     "lint": "bunx --bun next lint"
   },
