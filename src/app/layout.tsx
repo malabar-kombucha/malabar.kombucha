@@ -16,6 +16,8 @@ export const metadata: Metadata = {
   description: "Handcrafted kombucha made with love",
 };
 
+import MalabarLogo from "./components/MalabarLogo";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -23,9 +25,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+      </head>
       <body className={inter.className}>
         <ThemeProvider>
           <ThemeUpdater />
+
           {children}
         </ThemeProvider>
       </body>

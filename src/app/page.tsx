@@ -3,12 +3,18 @@
 import { useTheme } from './ThemeContext';
 import FlavorShowcase from './components/FlavorShowcase';
 import WhatsappEnquiryForm from './components/WhatsappEnquiryForm';
+import MalabarLogo from './components/MalabarLogo';
 
 export default function Home() {
   return (
     <main className="min-h-screen">
       {/* Flavor Showcase Section */}
-      <FlavorShowcase />
+      <div style={{ position: 'relative', minHeight: '60vh' }}>
+        <div style={{ position: 'absolute', top: 0, left: 0, zIndex: 10, padding: '2rem' }}>
+          <MalabarLogo size={90} />
+        </div>
+        <FlavorShowcase />
+      </div>
 
       {/* About Section */}
       <section className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative">
