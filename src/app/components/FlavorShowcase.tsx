@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useTheme } from '../ThemeContext';
-import { themes } from '../themes';
+import { useTheme, themes } from '../ThemeContext';
+import FloatingElements from './FloatingElements';
 
 export default function FlavorShowcase() {
   const { setTheme } = useTheme();
@@ -82,6 +82,9 @@ export default function FlavorShowcase() {
           background: `linear-gradient(135deg, ${themes[currentIndex].primary} 0%, ${themes[currentIndex].secondary} 100%)`
         }}
       />
+
+      {/* Floating Elements */}
+      <FloatingElements />
 
       {/* Content */}
       <div className="relative z-10 h-full flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
