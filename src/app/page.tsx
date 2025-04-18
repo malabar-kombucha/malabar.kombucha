@@ -2,6 +2,7 @@
 
 import { useTheme } from './ThemeContext';
 import FlavorShowcase from './components/FlavorShowcase';
+import WhatsappEnquiryForm from './components/WhatsappEnquiryForm';
 
 export default function Home() {
   return (
@@ -60,6 +61,9 @@ export default function Home() {
           <p className="text-xl sm:text-2xl mb-8">
             Have questions about our kombucha? Want to stock our products? We'd love to hear from you!
           </p>
+          <div className="flex justify-center mb-8">
+            <WhatsappEnquiryForm />
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-12">
             <div className="p-6 rounded-lg" style={{ 
               backgroundColor: 'var(--accent-color)20',
@@ -68,6 +72,7 @@ export default function Home() {
               <h3 className="text-2xl font-semibold mb-4">Contact Info</h3>
               <p className="mb-2">Email: info@malabarkombucha.com</p>
               <p className="mb-2">Phone: (555) 123-4567</p>
+              <p className="mb-2">WhatsApp: <a href="https://wa.me/919496826294" target="_blank" rel="noopener noreferrer" className="text-green-600 underline hover:text-green-800">+91 94968 26294</a></p>
               <p>Address: 123 Kombucha Lane, Portland, OR</p>
             </div>
             <div className="p-6 rounded-lg" style={{ 
