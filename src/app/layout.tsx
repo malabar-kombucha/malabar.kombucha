@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import ClientLayout from "./ClientLayout";
+import { ThemeProvider } from "./ThemeContext";
+import ThemeUpdater from "./ThemeUpdater";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Malabar Kombucha | Handcrafted Fermented Tea",
-  description: "Discover our handcrafted, organic kombucha made with premium ingredients and traditional fermentation methods.",
+  title: "Malabar Kombucha",
+  description: "Handcrafted kombucha made with love",
 };
 
 export default function RootLayout({
@@ -18,7 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ClientLayout>{children}</ClientLayout>
+        <ThemeProvider>
+          <ThemeUpdater />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

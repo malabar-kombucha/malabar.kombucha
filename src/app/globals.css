@@ -3,30 +3,106 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-rgb: 255, 255, 255;
+  --primary-color: #FF6B35;
+  --secondary-color: #FF9F1C;
+  --accent-color: #2EC4B6;
+  --text-color: #FFFFFF;
 }
 
+/* Theme transition styles */
 body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
+  background-color: var(--primary-color);
+  color: var(--text-color);
 }
 
+body.theme-transition * {
+  transition: background-color 0.7s ease,
+              color 0.7s ease,
+              border-color 0.7s ease,
+              box-shadow 0.7s ease;
+}
+
+/* Ensure all elements inherit the theme colors */
+* {
+  color: inherit;
+}
+
+/* Base styles */
+@layer base {
+  body {
+    @apply min-h-screen;
+  }
+}
+
+/* Component styles */
 @layer components {
   .btn-primary {
-    @apply bg-emerald-700 text-white px-6 py-2 rounded-lg hover:bg-emerald-800 transition-colors;
+    @apply px-6 py-3 rounded-lg font-semibold transition-all duration-300;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
   }
-  
+
+  .btn-primary:hover {
+    background-color: var(--accent-color);
+    transform: translateY(-2px);
+  }
+
   .btn-secondary {
-    @apply border-2 border-emerald-700 text-emerald-700 px-6 py-2 rounded-lg hover:bg-emerald-50 transition-colors;
+    @apply px-6 py-3 rounded-lg font-semibold transition-all duration-300;
+    border: 2px solid var(--text-color);
+    color: var(--text-color);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--text-color);
+    color: var(--primary-color);
   }
 
   .section-title {
-    @apply text-3xl md:text-4xl font-bold text-gray-900 mb-6;
+    @apply text-3xl sm:text-4xl font-bold mb-4;
+    color: var(--text-color);
   }
 
   .section-subtitle {
-    @apply text-lg text-gray-600 mb-8 max-w-2xl mx-auto text-center;
+    @apply text-lg sm:text-xl mb-8 text-center;
+    color: var(--text-color);
+    opacity: 0.9;
+  }
+
+  .flavor-card {
+    @apply bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300
+           hover:scale-105 hover:shadow-xl;
+  }
+
+  .flavor-card-content {
+    @apply p-6;
+  }
+
+  .flavor-name {
+    @apply text-xl sm:text-2xl font-bold mb-2 text-[var(--primary-color)];
+  }
+
+  .flavor-description {
+    @apply text-sm sm:text-base text-[var(--text-color)];
+  }
+
+  .theme-selector {
+    @apply fixed bottom-4 right-4 z-50;
+  }
+
+  .theme-button {
+    @apply w-12 h-12 rounded-full shadow-lg transition-transform duration-300
+           hover:scale-110 flex items-center justify-center;
+  }
+
+  .theme-palette {
+    @apply absolute bottom-16 right-0 bg-white rounded-lg shadow-xl p-4
+           grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2;
+  }
+
+  .theme-option {
+    @apply w-8 h-8 rounded-full cursor-pointer transition-transform duration-300
+           hover:scale-110;
   }
 }
 
