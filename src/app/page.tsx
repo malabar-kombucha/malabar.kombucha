@@ -4,6 +4,8 @@ import { useTheme } from './ThemeContext';
 import FlavorShowcase from './components/FlavorShowcase';
 import WhatsappEnquiryForm from './components/WhatsappEnquiryForm';
 import MalabarLogo from './components/MalabarLogo';
+import FindUsSection from './components/FindUsSection';
+import TestimonialsSection from './components/TestimonialsSection';
 
 export default function Home() {
   return (
@@ -93,6 +95,11 @@ export default function Home() {
           </div>
         </div>
       </section>
+      {/* Find Us Section */}
+      <FindUsSection />
+
+      {/* Testimonials Section */}
+      <TestimonialsSection />
     </main>
   );
 }
