@@ -95,36 +95,16 @@ export default function FlavorShowcase() {
           onTouchEnd={handleTouchEnd}
         >
           {/* Bottle SVG */}
-          <div className="relative w-48 h-96 mx-auto mb-8 transform transition-transform duration-700 hover:scale-105">
-            <svg
-              viewBox="0 0 200 400"
-              className="w-full h-full"
-              style={{ filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.3))' }}
-            >
-              {/* Bottle shape */}
-              <path
-                d="M100 20 C120 20, 130 30, 130 50 L130 350 C130 370, 120 380, 100 380 C80 380, 70 370, 70 350 L70 50 C70 30, 80 20, 100 20"
-                fill={themes[currentIndex].accent}
-                fillOpacity="0.1"
-                stroke={themes[currentIndex].accent}
-                strokeWidth="2"
-              />
-              {/* Liquid inside bottle */}
-              <path
-                d="M100 50 C120 50, 130 60, 130 80 L130 350 C130 370, 120 380, 100 380 C80 380, 70 370, 70 350 L70 80 C70 60, 80 50, 100 50"
-                fill={themes[currentIndex].primary}
-                fillOpacity="0.5"
-              />
-              {/* Bottle neck */}
-              <path
-                d="M100 0 C110 0, 115 5, 115 15 L115 20 C115 30, 110 35, 100 35 C90 35, 85 30, 85 20 L85 15 C85 5, 90 0, 100 0"
-                fill={themes[currentIndex].accent}
-                fillOpacity="0.1"
-                stroke={themes[currentIndex].accent}
-                strokeWidth="2"
-              />
-            </svg>
-          </div>
+          <div className="relative w-48 h-96 mx-auto mb-8 transform transition-transform duration-700 hover:scale-105 flex items-center justify-center">
+  {currentIndex < 10 ? (
+    <img
+      src={`/${currentIndex + 1}.png`}
+      alt={themes[currentIndex].name + ' bottle'}
+      className="w-full h-full object-contain"
+      style={{ filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.3))' }}
+    />
+  ) : null}
+</div>
 
           {/* Flavor name and description */}
           <h1 
