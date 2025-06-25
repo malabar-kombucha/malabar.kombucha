@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   description: "Handcrafted kombucha made with love",
 };
 
-import MalabarLogo from "./components/MalabarLogo";
+import { UserLocationLogger } from "./components/UserLocationLogger";
 
 export default function RootLayout({
   children,
@@ -31,7 +31,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider>
           <ThemeUpdater />
-
+          <UserLocationLogger />
           {children}
         </ThemeProvider>
       </body>

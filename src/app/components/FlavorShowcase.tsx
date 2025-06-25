@@ -1,34 +1,88 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useTheme, themes } from '../ThemeContext';
-import FloatingElements from './FloatingElements';
+import { useState, useEffect } from "react";
+import { useTheme, themes } from "../ThemeContext";
+import tinycolor from "tinycolor2";
 
 export default function FlavorShowcase() {
-  const { setTheme } = useTheme();
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const { currentTheme, setTheme } = useTheme();
+  const [currentIndex, setCurrentIndex] = useState(() => {
+    // Initialize index based on currentTheme
+    const idx = themes.findIndex(t => t.name === currentTheme.name);
+    return idx === -1 ? 0 : idx;
+  });
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          console.log("User location:", {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            accuracy: position.coords.accuracy,
+          });
+        },
+        (error) => {
+          console.error("Error getting location:", error.message);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0,
+        },
+      );
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+  }, []);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
   const [mouseStart, setMouseStart] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
+  const [lastTapTime, setLastTapTime] = useState(0);
+  const [touchPosition, setTouchPosition] = useState({ x: 0, y: 0 });
+  const [mounted, setMounted] = useState(false);
+
+  // --- TAP TO CHANGE THEME ON MOBILE ---
   const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStart(e.targetTouches[0].clientX);
+    const touch = e.touches[0];
+    setTouchPosition({ x: touch.clientX, y: touch.clientY });
+    setTouchStart(touch.clientX);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
+    const touch = e.touches[0];
+    setTouchEnd(touch.clientX);
   };
 
-  const handleTouchEnd = () => {
-    if (touchStart - touchEnd > 50) {
-      // Swipe left
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const touch = e.changedTouches[0];
+    const deltaX = Math.abs(touch.clientX - touchPosition.x);
+    const deltaY = Math.abs(touch.clientY - touchPosition.y);
+    const now = Date.now();
+    const tapLength = now - lastTapTime;
+
+    // If it's a tap (not a swipe)
+    if (deltaX < 10 && deltaY < 10) {
+      // Tap detected: advance to next theme
       setCurrentIndex((prev) => (prev + 1) % themes.length);
-    } else if (touchEnd - touchStart > 50) {
-      // Swipe right
-      setCurrentIndex((prev) => (prev - 1 + themes.length) % themes.length);
+      setLastTapTime(now);
+      return;
+    }
+    // Handle swipe
+    if (deltaX > 50) {
+      if (touchStart - touchEnd > 50) {
+        // Swipe left - next theme
+        setCurrentIndex((prev) => (prev + 1) % themes.length);
+      } else if (touchEnd - touchStart > 50) {
+        // Swipe right - previous theme
+        setCurrentIndex((prev) => (prev - 1 + themes.length) % themes.length);
+      }
     }
   };
+
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
@@ -37,7 +91,7 @@ export default function FlavorShowcase() {
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging) return;
-    
+
     const diff = e.clientX - mouseStart;
     if (Math.abs(diff) > 50) {
       if (diff > 0) {
@@ -55,85 +109,62 @@ export default function FlavorShowcase() {
     setIsDragging(false);
   };
 
-  // Update theme whenever currentIndex changes
+  // Only set mounted state on mount
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // When currentIndex changes, update the global theme if needed
   useEffect(() => {
     const theme = themes[currentIndex];
-    setTheme(theme.name);
-    
-    // Update CSS variables directly
-    document.documentElement.style.setProperty('--primary-color', theme.primary);
-    document.documentElement.style.setProperty('--secondary-color', theme.secondary);
-    document.documentElement.style.setProperty('--accent-color', theme.accent);
-    document.documentElement.style.setProperty('--text-color', theme.text);
-  }, [currentIndex, setTheme]);
+    if (currentTheme.name !== theme.name) {
+      setTheme(theme.name);
+    }
+    // Update accent color variable
+    document.documentElement.style.setProperty("--accent-color", theme.accent);
+  }, [currentIndex, setTheme, currentTheme.name]);
+
+  // When the global theme changes (e.g., via palette), update the image index
+  useEffect(() => {
+    const idx = themes.findIndex(t => t.name === currentTheme.name);
+    if (idx !== -1 && idx !== currentIndex) {
+      setCurrentIndex(idx);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTheme.name]);
+
+  // Don't render anything until the component is mounted on the client
+  if (!mounted) {
+    return null;
+  }
 
   return (
-    <div 
-      className="relative h-screen w-full overflow-hidden"
+    <div
+      className="relative h-screen w-full overflow-hidden bg-white"
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
-      {/* Background gradient */}
-      <div 
-        className="absolute inset-0 transition-all duration-700"
-        style={{ 
-          background: `linear-gradient(135deg, ${themes[currentIndex].primary} 0%, ${themes[currentIndex].secondary} 100%)`
-        }}
-      />
 
-      {/* Floating Elements */}
-      <FloatingElements />
-
-      {/* Content */}
-      <div className="relative z-10 h-full flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
-        <div 
-          className="w-full max-w-4xl mx-auto text-center"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-        >
-          {/* Bottle SVG */}
-          <div className="relative w-48 h-96 mx-auto mb-8 transform transition-transform duration-700 hover:scale-105 flex items-center justify-center">
-  {currentIndex < 10 ? (
-    <img
-      src={`/${currentIndex + 1}.png`}
-      alt={themes[currentIndex].name + ' bottle'}
-      className="w-full h-full object-contain"
-      style={{ filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.3))' }}
-    />
-  ) : null}
-</div>
-
-          {/* Flavor name and description */}
-          <h1 
-            className="text-4xl sm:text-6xl font-bold mb-4 transition-colors duration-700"
-            style={{ color: themes[currentIndex].text }}
-          >
-            {themes[currentIndex].name}
-          </h1>
-          <p 
-            className="text-xl sm:text-2xl max-w-2xl mx-auto transition-colors duration-700"
-            style={{ color: themes[currentIndex].text }}
-          >
-            {themes[currentIndex].description}
-          </p>
-
-          {/* Navigation dots */}
-          <div className="mt-8 flex items-center justify-center space-x-2">
-            {themes.map((_, index) => (
-              <div
-                key={index}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  index === currentIndex ? 'w-4 bg-current' : 'bg-current/50'
-                }`}
-                style={{ color: themes[currentIndex].text }}
-              />
-            ))}
-          </div>
+      {/* Bottle Image with Embedded Text */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="relative w-full h-full max-w-2xl">
+          <img
+            src={themes[currentIndex].bottleImage}
+            alt={`${themes[currentIndex].name} Kombucha`}
+            className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-[90vh] max-h-[900px] object-contain transition-all duration-700 ease-in-out"
+            style={{
+              filter: "drop-shadow(0 10px 30px rgba(0,0,0,0.2))",
+              WebkitFilter: "drop-shadow(0 10px 30px rgba(0,0,0,0.2))",
+              pointerEvents: 'none'
+            }}
+          />
         </div>
       </div>
     </div>
   );
-} 
+}

@@ -1,132 +1,173 @@
-'use client';
+"use client";
 
-import { createContext, useContext, useState, useEffect } from 'react';
-
+import { createContext, useContext, useState, useEffect } from "react";
 export const themes = [
   {
-    name: 'Black Goddess',
-    primary: '#1a1a1a',
-    secondary: '#333333',
-    accent: '#8B4513',
-    text: '#FFFFFF',
-    description: 'A rich, bold kombucha with deep earthy notes'
+    name: "BEET",
+    primary: "#c5433c",
+    secondary: "#880E4F",
+    accent: "#F48FB1",
+    text: "#FFFFFF",
+    description: "Rooty • Earthy • Rich",
+    bottleImage: "/images/bottles/beet.webp",
   },
   {
-    name: 'Classic',
-    primary: '#4CAF50',
-    secondary: '#2E7D32',
-    accent: '#8BC34A',
-    text: '#FFFFFF',
-    description: 'Our original recipe with a perfect balance of sweet and tart'
+    name: "GRAPE",
+    primary: "#473141",
+    secondary: "#4A148C",
+    accent: "#BA68C8",
+    text: "#FFFFFF",
+    description: "Juicy • Bold • Fruity",
+    bottleImage: "/images/bottles/grape.webp",
   },
   {
-    name: 'Strawberry',
-    primary: '#FF4081',
-    secondary: '#F50057',
-    accent: '#FF80AB',
-    text: '#FFFFFF',
-    description: 'Sweet and tangy with fresh strawberry flavor'
+    name: "POME",
+    primary: "#8a363a",
+    secondary: "#C2185B",
+    accent: "#F48FB1",
+    text: "#FFFFFF",
+    description: "Bold • Fruity • Antioxidant",
+    bottleImage: "/images/bottles/pome.webp",
   },
   {
-    name: 'Mango',
-    primary: '#FF9800',
-    secondary: '#F57C00',
-    accent: '#FFB74D',
-    text: '#FFFFFF',
-    description: 'Tropical mango goodness with a hint of spice'
+    name: "STRAW",
+    primary: "#a6403b",
+    secondary: "#F50057",
+    accent: "#FF80AB",
+    text: "#FFFFFF",
+    description: "Sweet • Tangy • Fruity",
+    bottleImage: "/images/bottles/straw.webp",
   },
   {
-    name: 'Pomegranate',
-    primary: '#E91E63',
-    secondary: '#C2185B',
-    accent: '#F48FB1',
-    text: '#FFFFFF',
-    description: 'Bold and fruity with antioxidant-rich pomegranate'
+    name: "PINA",
+    primary: "#d6ce57",
+    secondary: "#FFA000",
+    accent: "#FFD54F",
+    text: "#FFFFFF",
+    description: "Tropical • Zesty • Refreshing",
+    bottleImage: "/images/bottles/pina.webp",
   },
   {
-    name: 'Passion Fruit',
-    primary: '#9C27B0',
-    secondary: '#7B1FA2',
-    accent: '#CE93D8',
-    text: '#FFFFFF',
-    description: 'Exotic and tangy with tropical passion fruit'
+    name: "COCO",
+    primary: "#919e46",
+    secondary: "#5D4037",
+    accent: "#BCAAA4",
+    text: "#FFFFFF",
+    description: "Nutty • Smooth • Natural",
+    bottleImage: "/images/bottles/coco.webp",
   },
   {
-    name: 'Tender Coconut',
-    primary: '#795548',
-    secondary: '#5D4037',
-    accent: '#A1887F',
-    text: '#FFFFFF',
-    description: 'Creamy and refreshing with natural coconut flavor'
+    name: "BLUE",
+    primary: "#6966ad",
+    secondary: "#303F9F",
+    accent: "#7986CB",
+    text: "#FFFFFF",
+    description: "Sweet • Tart • Healthy",
+    bottleImage: "/images/bottles/blue.webp",
   },
   {
-    name: 'Berry Medley',
-    primary: '#673AB7',
-    secondary: '#512DA8',
-    accent: '#B39DDB',
-    text: '#FFFFFF',
-    description: 'A delightful mix of your favorite berries'
+    name: "MANGO",
+    primary: "#caa94d",
+    secondary: "#F57C00",
+    accent: "#FFB74D",
+    text: "#FFFFFF",
+    description: "Tropical • Spicy • Sweet",
+    bottleImage: "/images/bottles/mango.webp",
   },
   {
-    name: 'Blueberry',
-    primary: '#3F51B5',
-    secondary: '#303F9F',
-    accent: '#7986CB',
-    text: '#FFFFFF',
-    description: 'Sweet and tart with antioxidant-rich blueberries'
+    name: "ORANGE",
+    primary: "#FF9800",
+    secondary: "#F57C00",
+    accent: "#FFB74D",
+    text: "#FFFFFF",
+    description: "Citrusy • Bright • Fresh",
+    bottleImage: "/images/bottles/orange.png",
   },
   {
-    name: 'Nutmeg',
-    primary: '#795548',
-    secondary: '#5D4037',
-    accent: '#A1887F',
-    text: '#FFFFFF',
-    description: 'Warm and spicy with aromatic nutmeg'
+    name: "PASSION",
+    primary: "#9C27B0",
+    secondary: "#7B1FA2",
+    accent: "#CE93D8",
+    text: "#FFFFFF",
+    description: "Exotic • Tangy • Tropical",
+    bottleImage: "/images/bottles/passion.webp",
   },
   {
-    name: 'Pineapple',
-    primary: '#FFC107',
-    secondary: '#FFA000',
-    accent: '#FFD54F',
-    text: '#FFFFFF',
-    description: 'Tropical pineapple with a hint of ginger'
+    name: "GOOSE",
+    primary: "#b5ba4a",
+    secondary: "#2E7D32",
+    accent: "#8BC34A",
+    text: "#FFFFFF",
+    description: "Tart • Refreshing • Zingy",
+    bottleImage: "/images/bottles/goose.png",
   },
   {
-    name: 'Ginger',
-    primary: '#FF5722',
-    secondary: '#E64A19',
-    accent: '#FF8A65',
-    text: '#FFFFFF',
-    description: 'Spicy and invigorating with fresh ginger'
+    name: "GINGER",
+    primary: "#b3976a",
+    secondary: "#E64A19",
+    accent: "#FF8A65",
+    text: "#FFFFFF",
+    description: "Spicy • Invigorating • Fresh",
+    bottleImage: "/images/bottles/ginger.png",
   },
   {
-    name: 'Gooseberry',
-    primary: '#4CAF50',
-    secondary: '#2E7D32',
-    accent: '#8BC34A',
-    text: '#FFFFFF',
-    description: 'Tart and refreshing with Indian gooseberry'
+    name: "NUTMEG",
+    primary: "#d1b27b",
+    secondary: "#5D4037",
+    accent: "#A1887F",
+    text: "#FFFFFF",
+    description: "Warm • Spicy • Aromatic",
+    bottleImage: "/images/bottles/nutmeg.webp",
   },
   {
-    name: 'Orange',
-    primary: '#FF9800',
-    secondary: '#F57C00',
-    accent: '#FFB74D',
-    text: '#FFFFFF',
-    description: 'Bright and citrusy with fresh orange'
+    name: "CLASSIC",
+    primary: "#7b5738",
+    secondary: "#2E7D32",
+    accent: "#8BC34A",
+    text: "#FFFFFF",
+    description: "Classic • Balanced • Refreshing",
+    bottleImage: "/images/bottles/classic.webp",
   },
   {
-    name: 'Turmeric',
-    primary: '#FFC107',
-    secondary: '#FFA000',
-    accent: '#FFD54F',
-    text: '#FFFFFF',
-    description: 'Golden and earthy with anti-inflammatory turmeric'
-  }
+    name: "BLACK GODDESS",
+    primary: "#1a1a1a",
+    secondary: "#333333",
+    accent: "#8B4513",
+    text: "#FFFFFF",
+    description: "Earthy • Bold • Rich",
+    bottleImage: "/images/bottles/black-goddess.png",
+  },
+  {
+    name: "MALABAR",
+    primary: "#4E342E",
+    secondary: "#3E2723",
+    accent: "#A1887F",
+    text: "#FFFFFF",
+    description: "Herbal • Spicy • Malabari",
+    bottleImage: "/images/bottles/malabar-bottle.png",
+  },
+  {
+    name: "RED FAIRY",
+    primary: "#D81B60",
+    secondary: "#880E4F",
+    accent: "#F06292",
+    text: "#FFFFFF",
+    description: "Strawberry • Beet • Minty",
+    bottleImage: "/images/bottles/red-fairy-bottle.png",
+  },
 ];
+export interface ThemeType {
+  name: string;
+  primary: string;
+  secondary: string;
+  accent: string;
+  text: string;
+  description: string;
+  bottleImage: string;
+}
 
 type ThemeContextType = {
-  currentTheme: typeof themes[0];
+  currentTheme: ThemeType;
   setTheme: (themeName: string) => void;
 };
 
@@ -137,9 +178,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // Load saved theme from localStorage
-    const savedTheme = localStorage.getItem('malabar-theme');
+    const savedTheme = localStorage.getItem("malabar-theme");
     if (savedTheme) {
-      const theme = themes.find(t => t.name === savedTheme);
+      const theme = themes.find((t) => t.name === savedTheme);
       if (theme) {
         setCurrentTheme(theme);
       }
@@ -147,10 +188,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const setTheme = (themeName: string) => {
-    const theme = themes.find(t => t.name === themeName);
+    const theme = themes.find((t) => t.name === themeName);
     if (theme) {
       setCurrentTheme(theme);
-      localStorage.setItem('malabar-theme', themeName);
+      localStorage.setItem("malabar-theme", themeName);
     }
   };
 
@@ -164,7 +205,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 export function useTheme() {
   const context = useContext(ThemeContext);
   if (context === undefined) {
-    throw new Error('useTheme must be used within a ThemeProvider');
+    throw new Error("useTheme must be used within a ThemeProvider");
   }
   return context;
-} 
+}
