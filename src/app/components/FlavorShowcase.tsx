@@ -62,25 +62,22 @@ export default function FlavorShowcase() {
 
     // If it's a tap (not a swipe)
     if (deltaX < 10 && deltaY < 10) {
-      // Tap detected: advance to next theme, but clamp to last
-      if (currentIndex < themes.length - 1) {
-        setTheme(themes[currentIndex + 1].name);
-      }
+      // Tap detected: advance to next theme, wrap to first if at end
+      const nextIndex = (currentIndex + 1) % themes.length;
+      setTheme(themes[nextIndex].name);
       setLastTapTime(now);
       return;
     }
     // Handle swipe
     if (deltaX > 50) {
       if (touchStart - touchEnd > 50) {
-        // Swipe left - next theme
-        if (currentIndex < themes.length - 1) {
-          setTheme(themes[currentIndex + 1].name);
-        }
+        // Swipe left - next theme (wrap)
+        const nextIndex = (currentIndex + 1) % themes.length;
+        setTheme(themes[nextIndex].name);
       } else if (touchEnd - touchStart > 50) {
-        // Swipe right - previous theme
-        if (currentIndex > 0) {
-          setTheme(themes[currentIndex - 1].name);
-        }
+        // Swipe right - previous theme (wrap)
+        const prevIndex = (currentIndex - 1 + themes.length) % themes.length;
+        setTheme(themes[prevIndex].name);
       }
     }
   };
@@ -97,15 +94,13 @@ export default function FlavorShowcase() {
     const diff = e.clientX - mouseStart;
     if (Math.abs(diff) > 50) {
       if (diff > 0) {
-        // Move right (previous)
-        if (currentIndex > 0) {
-          setTheme(themes[currentIndex - 1].name);
-        }
+        // Move right (previous), wrap to last if at first
+        const prevIndex = (currentIndex - 1 + themes.length) % themes.length;
+        setTheme(themes[prevIndex].name);
       } else {
-        // Move left (next)
-        if (currentIndex < themes.length - 1) {
-          setTheme(themes[currentIndex + 1].name);
-        }
+        // Move left (next), wrap to first if at last
+        const nextIndex = (currentIndex + 1) % themes.length;
+        setTheme(themes[nextIndex].name);
       }
       setIsDragging(false);
     }
