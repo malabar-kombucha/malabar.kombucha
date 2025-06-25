@@ -6,11 +6,8 @@ import tinycolor from "tinycolor2";
 
 export default function FlavorShowcase() {
   const { currentTheme, setTheme } = useTheme();
-  const [currentIndex, setCurrentIndex] = useState(() => {
-    // Initialize index based on currentTheme
-    const idx = themes.findIndex(t => t.name === currentTheme.name);
-    return idx === -1 ? 0 : idx;
-  });
+  // Index is always derived from currentTheme
+  const currentIndex = themes.findIndex(t => t.name === currentTheme.name);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -62,12 +59,13 @@ export default function FlavorShowcase() {
     const deltaX = Math.abs(touch.clientX - touchPosition.x);
     const deltaY = Math.abs(touch.clientY - touchPosition.y);
     const now = Date.now();
-    const tapLength = now - lastTapTime;
 
     // If it's a tap (not a swipe)
     if (deltaX < 10 && deltaY < 10) {
-      // Tap detected: advance to next theme
-      setCurrentIndex((prev) => (prev + 1) % themes.length);
+      // Tap detected: advance to next theme, but clamp to last
+      if (currentIndex < themes.length - 1) {
+        setTheme(themes[currentIndex + 1].name);
+      }
       setLastTapTime(now);
       return;
     }
@@ -75,10 +73,14 @@ export default function FlavorShowcase() {
     if (deltaX > 50) {
       if (touchStart - touchEnd > 50) {
         // Swipe left - next theme
-        setCurrentIndex((prev) => (prev + 1) % themes.length);
+        if (currentIndex < themes.length - 1) {
+          setTheme(themes[currentIndex + 1].name);
+        }
       } else if (touchEnd - touchStart > 50) {
         // Swipe right - previous theme
-        setCurrentIndex((prev) => (prev - 1 + themes.length) % themes.length);
+        if (currentIndex > 0) {
+          setTheme(themes[currentIndex - 1].name);
+        }
       }
     }
   };
@@ -95,11 +97,15 @@ export default function FlavorShowcase() {
     const diff = e.clientX - mouseStart;
     if (Math.abs(diff) > 50) {
       if (diff > 0) {
-        // Move right
-        setCurrentIndex((prev) => (prev - 1 + themes.length) % themes.length);
+        // Move right (previous)
+        if (currentIndex > 0) {
+          setTheme(themes[currentIndex - 1].name);
+        }
       } else {
-        // Move left
-        setCurrentIndex((prev) => (prev + 1) % themes.length);
+        // Move left (next)
+        if (currentIndex < themes.length - 1) {
+          setTheme(themes[currentIndex + 1].name);
+        }
       }
       setIsDragging(false);
     }
@@ -114,24 +120,11 @@ export default function FlavorShowcase() {
     setMounted(true);
   }, []);
 
-  // When currentIndex changes, update the global theme if needed
+  // When the global theme changes, update accent color variable
   useEffect(() => {
     const theme = themes[currentIndex];
-    if (currentTheme.name !== theme.name) {
-      setTheme(theme.name);
-    }
-    // Update accent color variable
     document.documentElement.style.setProperty("--accent-color", theme.accent);
-  }, [currentIndex, setTheme, currentTheme.name]);
-
-  // When the global theme changes (e.g., via palette), update the image index
-  useEffect(() => {
-    const idx = themes.findIndex(t => t.name === currentTheme.name);
-    if (idx !== -1 && idx !== currentIndex) {
-      setCurrentIndex(idx);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentTheme.name]);
+  }, [currentIndex]);
 
   // Don't render anything until the component is mounted on the client
   if (!mounted) {
@@ -154,8 +147,8 @@ export default function FlavorShowcase() {
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="relative w-full h-full max-w-2xl">
           <img
-            src={themes[currentIndex].bottleImage}
-            alt={`${themes[currentIndex].name} Kombucha`}
+            src={currentTheme.bottleImage}
+            alt={`${currentTheme.name} Kombucha`}
             className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-[90vh] max-h-[900px] object-contain transition-all duration-700 ease-in-out"
             style={{
               filter: "drop-shadow(0 10px 30px rgba(0,0,0,0.2))",
@@ -168,3 +161,4 @@ export default function FlavorShowcase() {
     </div>
   );
 }
+
