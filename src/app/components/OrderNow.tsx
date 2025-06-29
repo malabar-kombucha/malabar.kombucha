@@ -34,24 +34,47 @@ export default function OrderNow() {
   const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [locationPermissionAsked, setLocationPermissionAsked] = useState(false);
+  const [prettyLocation, setPrettyLocation] = useState<string | null>(null);
 
   const { currentTheme } = useTheme();
+
+  // Fetch a human-readable location name using Nominatim (OpenStreetMap)
+  const fetchLocationName = async (lat: number, lon: number): Promise<string> => {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`
+      );
+      if (!response.ok) return "Unknown Location";
+      const data = await response.json();
+      return (
+        data.display_name ||
+        data.address?.suburb ||
+        data.address?.city ||
+        data.address?.town ||
+        data.address?.village ||
+        "Unknown Location"
+      );
+    } catch {
+      return "Unknown Location";
+    }
+  };
 
   const requestLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
+        async (position) => {
           const location = {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
             accuracy: position.coords.accuracy
           };
-          console.log('User location:', location);
           setUserLocation(location);
+          // Fetch pretty location and set it
+          const locName = await fetchLocationName(location.latitude, location.longitude);
+          setPrettyLocation(locName);
           setShowLocationModal(false);
         },
         (error) => {
-          console.error('Error getting location:', error.message);
           setShowLocationModal(false);
         },
         {
@@ -61,7 +84,6 @@ export default function OrderNow() {
         }
       );
     } else {
-      console.log('Geolocation is not supported by this browser.');
       setShowLocationModal(false);
     }
   };
@@ -230,8 +252,8 @@ export default function OrderNow() {
     const cleanPhoneForWhatsApp = `+91${phone.replace(/\D/g, '')}`;
 
     // Include location information in the message
-    const locationInfo = userLocation
-      ? `Location: Lat ${userLocation.latitude.toFixed(6)}, Lng ${userLocation.longitude.toFixed(6)} (Accuracy: ${userLocation.accuracy.toFixed(0)}m)%0A%0A`
+    const locationInfo = prettyLocation
+      ? `Location: ${prettyLocation}%0A%0A`
       : 'Location: Not available%0A%0A';
 
     const message = `New Customer Order%0A%0A` +
