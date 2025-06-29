@@ -28,6 +28,7 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <meta property="og:logo" content="/favicon.svg" />
 
         {/* Primary Meta Tags */}
         <title>Malabar Kombucha | Handcrafted Probiotic Healthy Drink</title>

@@ -9,29 +9,6 @@ export default function FlavorShowcase() {
   // Index is always derived from currentTheme
   const currentIndex = themes.findIndex(t => t.name === currentTheme.name);
 
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          console.log("User location:", {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            accuracy: position.coords.accuracy,
-          });
-        },
-        (error) => {
-          console.error("Error getting location:", error.message);
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 5000,
-          maximumAge: 0,
-        },
-      );
-    } else {
-      console.log("Geolocation is not supported by this browser.");
-    }
-  }, []);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
   const [mouseStart, setMouseStart] = useState(0);
@@ -41,6 +18,7 @@ export default function FlavorShowcase() {
   const [lastTapTime, setLastTapTime] = useState(0);
   const [touchPosition, setTouchPosition] = useState({ x: 0, y: 0 });
   const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   // --- TAP TO CHANGE THEME ON MOBILE ---
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -113,6 +91,15 @@ export default function FlavorShowcase() {
   // Only set mounted state on mount
   useEffect(() => {
     setMounted(true);
+    // Detect mobile device
+    const checkMobile = () => {
+      if (typeof window !== "undefined") {
+        setIsMobile(window.innerWidth <= 768);
+      }
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   // When the global theme changes, update accent color variable
@@ -137,14 +124,28 @@ export default function FlavorShowcase() {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-
+      {/* Logo */}
+      <div className="absolute top-8 right-8 z-10">
+        <img
+          src="/logo.webp"
+          alt="Logo"
+          className="h-28 w-auto object-contain transition-all duration-700 ease-in-out"
+          style={{ pointerEvents: 'none' }}
+        />
+      </div>
       {/* Bottle Image with Embedded Text */}
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="relative w-full h-full max-w-2xl">
           <img
-            src={currentTheme.bottleImage}
+            src={
+              isMobile
+                ? currentTheme.bottleImage.replace(/(\.webp|\.png)$/, "_mobile.webp")
+                : currentTheme.bottleImage
+            }
             alt={`${currentTheme.name} Kombucha`}
-            className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-[90vh] max-h-[900px] object-contain transition-all duration-700 ease-in-out"
+            className={`absolute left-1/2 transform -translate-x-1/2 object-contain transition-all duration-700 ease-in-out ${
+              isMobile ? "top-0 h-full w-full" : "bottom-0 h-[90vh] max-h-[900px]"
+            }`}
             style={{
               filter: "drop-shadow(0 10px 30px rgba(0,0,0,0.2))",
               WebkitFilter: "drop-shadow(0 10px 30px rgba(0,0,0,0.2))",
@@ -156,4 +157,3 @@ export default function FlavorShowcase() {
     </div>
   );
 }
-
