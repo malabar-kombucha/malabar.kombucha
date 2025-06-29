@@ -10,7 +10,7 @@ import Footer from "./components/Footer";
 import { useState, useEffect } from "react";
 
 export default function Home() {
-  const { theme } = useTheme();
+  const { currentTheme } = useTheme();
   const [showArrow, setShowArrow] = useState(false);
   const [shouldBounce, setShouldBounce] = useState(false);
 
