@@ -9,6 +9,13 @@ import TestimonialsSection from "./components/TestimonialsSection";
 import Footer from "./components/Footer";
 
 export default function Home() {
+  const scrollToNextSection = () => {
+    const aboutSection = document.querySelector('#about-section');
+    if (aboutSection) {
+      aboutSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <main className="min-h-screen">
       {/* Flavor Showcase Section */}
@@ -23,10 +30,34 @@ export default function Home() {
           }}
         ></div>
         <FlavorShowcase />
+
+        {/* Animated Down Arrow */}
+        <div
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer z-20"
+          onClick={scrollToNextSection}
+        >
+          <div className="animate-bounce">
+            <svg
+              className="w-8 h-8 text-white opacity-70 hover:opacity-100 transition-opacity duration-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 14l-7 7m0 0l-7-7m7 7V3"
+              />
+            </svg>
+          </div>
+          <p className="text-white text-sm mt-2 opacity-70">Scroll for more</p>
+        </div>
       </div>
 
       {/* About Section */}
-      <section className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative">
+      <section id="about-section" className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative">
         <div
           className="absolute inset-0"
           style={{
