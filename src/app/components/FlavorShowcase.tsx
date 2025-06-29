@@ -115,7 +115,8 @@ export default function FlavorShowcase() {
 
   return (
     <div
-      className="relative h-screen w-full overflow-hidden bg-white"
+      className="relative h-screen w-full overflow-hidden"
+      style={{ backgroundColor: currentTheme.accent }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
@@ -135,7 +136,7 @@ export default function FlavorShowcase() {
       </div>
       {/* Bottle Image with Embedded Text */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="relative w-full h-full max-w-2xl">
+        <div className={`relative h-full ${isMobile ? "w-full" : "w-full max-w-2xl"}`}>
           <img
             src={
               isMobile
@@ -144,7 +145,7 @@ export default function FlavorShowcase() {
             }
             alt={`${currentTheme.name} Kombucha`}
             className={`absolute left-1/2 transform -translate-x-1/2 object-contain transition-all duration-700 ease-in-out ${
-              isMobile ? "top-0 h-full w-full" : "bottom-0 h-[90vh] max-h-[900px]"
+              isMobile ? "top-0 h-full w-full max-w-none" : "bottom-0 h-full w-full"
             }`}
             style={{
               filter: "drop-shadow(0 10px 30px rgba(0,0,0,0.2))",
