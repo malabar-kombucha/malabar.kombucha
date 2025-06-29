@@ -7,8 +7,29 @@ import OrderNow from "./components/OrderNow";
 import FindUsSection from "./components/FindUsSection";
 import TestimonialsSection from "./components/TestimonialsSection";
 import Footer from "./components/Footer";
+import { useState, useEffect } from "react";
 
 export default function Home() {
+  const { theme } = useTheme();
+  const [showArrow, setShowArrow] = useState(false);
+  const [shouldBounce, setShouldBounce] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowArrow(true);
+    }, 2000);
+
+    // Start bouncing after 5 seconds
+    const bounceTimer = setTimeout(() => {
+      setShouldBounce(true);
+    }, 5000);
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(bounceTimer);
+    };
+  }, []);
+
   const scrollToNextSection = () => {
     const aboutSection = document.querySelector('#about-section');
     if (aboutSection) {
@@ -16,44 +37,99 @@ export default function Home() {
     }
   };
 
+  const scrollToOrderSection = () => {
+    const orderSection = document.querySelector('#order-section');
+    if (orderSection) {
+      orderSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <main className="min-h-screen">
+      {/* Floating Order Button */}
+      <button
+        onClick={scrollToOrderSection}
+        className="fixed bottom-6 right-6 z-50 rounded-full shadow-lg transition-all duration-300 hover:scale-110 flex items-center justify-center"
+        style={{
+          width: '60px',
+          height: '60px',
+          backgroundColor: 'var(--accent-color)'
+        }}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={2}
+          stroke="currentColor"
+          className="w-6 h-6 text-white"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M2.25 2.25h2.523a.75.75 0 0 1 .697.47l1.174 2.82l2.78 6.105a.75.75 0 0 0 .681.425h7.27a.75.75 0 0 0 .733-.57l1.29-5.16a.75.75 0 0 0-.73-.93H6.08M2.25 2.25l1.5 12.75h14.25m-11.25 0a1.5 1.5 0 1 1-3 0m12 0a1.5 1.5 0 1 1-3 0"
+          />
+        </svg>
+      </button>
+
       {/* Flavor Showcase Section */}
-      <div style={{ position: "relative", minHeight: "60vh" }}>
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            zIndex: 10,
-            padding: "2rem",
-          }}
-        ></div>
+      <div
+        className="sm:pt-0 pt-0"
+        style={{
+          position: "relative",
+          minHeight: "60vh",
+          animation: shouldBounce ? 'bounce 2s ease-in-out infinite' : 'none',
+          marginTop: 0,
+          paddingTop: 0
+        }}
+      >
+        <style jsx>{`
+          @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-30px); }
+            60% { transform: translateY(-15px); }
+          }
+          @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(-50%); }
+            50% { transform: translateY(-10px) translateX(-50%); }
+          }
+          @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+        `}</style>
+
         <FlavorShowcase />
 
         {/* Animated Down Arrow */}
-        <div
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer z-20"
-          onClick={scrollToNextSection}
-        >
-          <div className="animate-bounce">
+        {showArrow && (
+          <div
+            className="absolute bottom-8 left-1/2 cursor-pointer z-20 group opacity-0 animate-fade-in"
+            onClick={scrollToNextSection}
+            style={{
+              animation: 'float 3s ease-in-out infinite, fadeIn 1s ease-in-out forwards',
+              transform: 'translateX(-50%)'
+            }}
+          >
             <svg
-              className="w-8 h-8 text-white opacity-70 hover:opacity-100 transition-opacity duration-300"
+              className="w-8 h-8 text-white transition-all duration-300 group-hover:scale-110"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
+              style={{
+                filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.5))',
+                strokeWidth: '2'
+              }}
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth={2}
                 d="M19 14l-7 7m0 0l-7-7m7 7V3"
               />
             </svg>
           </div>
-          <p className="text-white text-sm mt-2 opacity-70">Scroll for more</p>
-        </div>
+        )}
       </div>
 
       {/* About Section */}
@@ -121,7 +197,7 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative">
+      <section id="order-section" className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative">
         <div
           className="absolute inset-0"
           style={{
