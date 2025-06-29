@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 
-const WHATSAPP_NUMBER = "919496826294";
+const WHATSAPP_NUMBER = "917994160473";
 
 import { useTheme } from '../ThemeContext';
 
@@ -23,7 +23,7 @@ export default function WhatsappEnquiryForm() {
   return (
     <form
       onSubmit={handleSend}
-      className="rounded-lg shadow p-6 flex flex-col gap-4 max-w-xl mx-auto"
+      className="rounded-lg shadow w-full max-w-xs sm:max-w-md md:max-w-xl p-4 sm:p-6 flex flex-col gap-4 mx-auto"
       style={{
         background: currentTheme.primary,
         border: `1.5px solid ${currentTheme.accent}`,
@@ -42,7 +42,7 @@ export default function WhatsappEnquiryForm() {
         placeholder="Your Name"
         value={name}
         onChange={e => setName(e.target.value)}
-        className="px-4 py-2 rounded border outline-none"
+        className="w-full px-4 py-3 rounded border outline-none text-base"
         style={{
           background: currentTheme.secondary,
           border: `1px solid ${currentTheme.accent}`,
@@ -55,7 +55,7 @@ export default function WhatsappEnquiryForm() {
         placeholder="Your Email"
         value={email}
         onChange={e => setEmail(e.target.value)}
-        className="px-4 py-2 rounded border outline-none"
+        className="w-full px-4 py-3 rounded border outline-none text-base"
         style={{
           background: currentTheme.secondary,
           border: `1px solid ${currentTheme.accent}`,
@@ -68,7 +68,7 @@ export default function WhatsappEnquiryForm() {
         rows={4}
         value={message}
         onChange={e => setMessage(e.target.value)}
-        className="px-4 py-2 rounded border outline-none"
+        className="w-full px-4 py-3 rounded border outline-none text-base"
         style={{
           background: currentTheme.secondary,
           border: `1px solid ${currentTheme.accent}`,
@@ -77,7 +77,7 @@ export default function WhatsappEnquiryForm() {
       />
       <button
         type="submit"
-        className="font-bold py-2 px-6 rounded transition-colors duration-200 mt-2 shadow"
+        className="w-full font-bold py-3 px-6 rounded transition-colors duration-200 mt-2 shadow text-base"
         style={{
           background: currentTheme.accent,
           color: currentTheme.text,

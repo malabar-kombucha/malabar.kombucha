@@ -23,7 +23,7 @@ export default function FindUsSection() {
         <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8" style={{ color: currentTheme.text }}>Order Online</h2>
         <p className="text-base sm:text-lg md:text-xl mb-8 sm:mb-10 px-2" style={{ color: currentTheme.text }}>You can order Malabar Kombucha through these delivery platforms:</p>
         <div className="flex justify-center">
-          <div className="grid grid-cols-1 gap-6 sm:gap-8 max-w-sm">
+          <div className="grid grid-cols-1 gap-6 sm:gap-8 w-full max-w-xs sm:max-w-md md:max-w-xl">
             {vendors.map((vendor) => (
               <a
                 key={vendor.name}

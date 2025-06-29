@@ -32,7 +32,7 @@ export default function TestimonialsSection() {
           {testimonials.map((t, idx) => (
             <div
               key={idx}
-              className="p-6 rounded-lg shadow border"
+              className="p-6 rounded-lg shadow border w-full max-w-xs sm:max-w-md md:max-w-xl mx-auto"
               style={{
                 background: currentTheme.secondary,
                 border: `1.5px solid ${currentTheme.accent}`,

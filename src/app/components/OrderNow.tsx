@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useTheme } from '../ThemeContext';
 
-const WHATSAPP_NUMBER = "919496826294";
+const WHATSAPP_NUMBER = "917994160473";
 
 interface OrderItem {
   id: string;
@@ -28,7 +28,7 @@ export default function OrderNow() {
   const [address, setAddress] = useState("");
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
   const [selectedFlavor, setSelectedFlavor] = useState("");
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState<number | string>(1);
   const [pricePerItem, setPricePerItem] = useState(100);
   const [errors, setErrors] = useState<{[key: string]: string}>({});
   const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
@@ -194,12 +194,24 @@ export default function OrderNow() {
     }
   };
 
+  const handleQuantityChange = (value: string) => {
+    if (value === '') {
+      setQuantity('');
+    } else {
+      const numValue = parseInt(value);
+      if (!isNaN(numValue) && numValue >= 0) {
+        setQuantity(numValue);
+      }
+    }
+  };
+
   const addOrderItem = () => {
-    if (selectedFlavor && quantity > 0 && pricePerItem > 0) {
+    const quantityNum = typeof quantity === 'string' ? parseInt(quantity) : quantity;
+    if (selectedFlavor && quantityNum > 0 && pricePerItem > 0) {
       const newItem: OrderItem = {
         id: Date.now().toString(),
         flavor: selectedFlavor,
-        quantity: quantity,
+        quantity: quantityNum,
         price: pricePerItem
       };
       setOrderItems([...orderItems, newItem]);
@@ -277,7 +289,7 @@ export default function OrderNow() {
       {showLocationModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div
-            className="rounded-lg p-6 max-w-md mx-4"
+            className="rounded-lg p-4 sm:p-6 w-full max-w-xs sm:max-w-md md:max-w-xl mx-2 sm:mx-4"
             style={{
               background: currentTheme.primary,
               border: `2px solid ${currentTheme.accent}`,
@@ -287,13 +299,13 @@ export default function OrderNow() {
             <h3 className="text-lg font-semibold mb-4" style={{ color: currentTheme.text }}>
               Location Access
             </h3>
-            <p className="mb-6" style={{ color: currentTheme.text }}>
+            <p className="mb-6 text-base" style={{ color: currentTheme.text }}>
               We'd like to access your location to help with accurate delivery. This information will be shared with our delivery team to ensure your order reaches you quickly.
             </p>
-            <div className="flex gap-3 justify-end">
+            <div className="flex flex-col xs:flex-row gap-2 sm:gap-3 justify-end">
               <button
                 onClick={() => handleLocationPermission(false)}
-                className="px-4 py-2 rounded border"
+                className="w-full xs:w-auto px-4 py-3 rounded border text-base"
                 style={{
                   background: currentTheme.secondary,
                   border: `1px solid ${currentTheme.accent}`,
@@ -304,7 +316,7 @@ export default function OrderNow() {
               </button>
               <button
                 onClick={() => handleLocationPermission(true)}
-                className="px-4 py-2 rounded font-medium"
+                className="w-full xs:w-auto px-4 py-3 rounded font-medium text-base"
                 style={{
                   background: currentTheme.accent,
                   color: currentTheme.text,
@@ -320,7 +332,7 @@ export default function OrderNow() {
 
       <form
         onSubmit={handleSubmit}
-        className="rounded-lg shadow p-6 flex flex-col gap-4 max-w-2xl mx-auto"
+        className="rounded-lg shadow w-full max-w-xs sm:max-w-md md:max-w-xl p-4 sm:p-6 flex flex-col gap-4 mx-auto"
         style={{
           background: currentTheme.primary,
           border: `1.5px solid ${currentTheme.accent}`,
@@ -341,7 +353,7 @@ export default function OrderNow() {
             placeholder="Your Name"
             value={name}
             onChange={e => handleNameChange(e.target.value)}
-            className={`px-4 py-2 rounded border outline-none ${errors.name ? 'border-red-500' : ''}`}
+            className={`w-full px-4 py-3 rounded border outline-none text-base ${errors.name ? 'border-red-500' : ''}`}
             style={{
               background: currentTheme.secondary,
               border: `1px solid ${errors.name ? '#ef4444' : currentTheme.accent}`,
@@ -360,7 +372,7 @@ export default function OrderNow() {
             placeholder="Your Phone Number (10 digits)"
             value={phone}
             onChange={e => handlePhoneChange(e.target.value)}
-            className={`px-4 py-2 rounded border outline-none ${errors.phone ? 'border-red-500' : ''}`}
+            className={`w-full px-4 py-3 rounded border outline-none text-base ${errors.phone ? 'border-red-500' : ''}`}
             style={{
               background: currentTheme.secondary,
               border: `1px solid ${errors.phone ? '#ef4444' : currentTheme.accent}`,
@@ -379,7 +391,7 @@ export default function OrderNow() {
             rows={3}
             value={address}
             onChange={e => handleAddressChange(e.target.value)}
-            className={`px-4 py-2 rounded border outline-none ${errors.address ? 'border-red-500' : ''}`}
+            className={`w-full px-4 py-3 rounded border outline-none text-base ${errors.address ? 'border-red-500' : ''}`}
             style={{
               background: currentTheme.secondary,
               border: `1px solid ${errors.address ? '#ef4444' : currentTheme.accent}`,
@@ -396,11 +408,11 @@ export default function OrderNow() {
             Add Flavors to Order
           </h4>
 
-          <div className="flex gap-2 mb-3">
+          <div className="flex flex-col sm:flex-row gap-2 mb-3 w-full">
             <select
               value={selectedFlavor}
               onChange={e => handleFlavorChange(e.target.value)}
-              className="px-4 py-2 rounded border outline-none flex-1"
+              className="px-4 py-2 rounded border outline-none w-full sm:flex-1"
               style={{
                 background: currentTheme.secondary,
                 border: `1px solid ${currentTheme.accent}`,
@@ -417,10 +429,10 @@ export default function OrderNow() {
 
             <input
               type="number"
-              min="1"
+              min="0"
               value={quantity}
-              onChange={e => setQuantity(parseInt(e.target.value) || 1)}
-              className="px-4 py-2 rounded border outline-none w-20"
+              onChange={e => handleQuantityChange(e.target.value)}
+              className="px-4 py-2 rounded border outline-none w-full sm:w-20"
               style={{
                 background: currentTheme.secondary,
                 border: `1px solid ${currentTheme.accent}`,
@@ -430,20 +442,20 @@ export default function OrderNow() {
             />
 
             <div
-              className="px-4 py-2 rounded border w-24 flex items-center justify-center font-medium"
+              className="px-4 py-2 rounded border w-full sm:w-24 flex items-center justify-center font-medium"
               style={{
                 background: currentTheme.secondary,
                 border: `1px solid ${currentTheme.accent}`,
                 color: currentTheme.text
               }}
             >
-              ₹{quantity * pricePerItem}
+              ₹{(typeof quantity === 'string' ? (quantity === '' ? 0 : parseInt(quantity) || 0) : quantity) * pricePerItem}
             </div>
 
             <button
               type="button"
               onClick={addOrderItem}
-              className="px-4 py-2 rounded font-medium"
+              className="px-4 py-2 rounded font-medium w-full sm:w-auto"
               style={{
                 background: currentTheme.accent,
                 color: currentTheme.text,

@@ -106,9 +106,13 @@ export default function Home() {
             Have questions about our kombucha? Want to stock our products? We'd
             love to hear from you!
           </p>
-          <div className="flex justify-center mb-8">
-            <WhatsappEnquiryForm />
-            <OrderNow />
+          <div className="flex flex-col md:flex-row justify-center items-stretch gap-6 mb-8 w-full">
+            <div className="flex-1 min-w-0">
+              <WhatsappEnquiryForm />
+            </div>
+            <div className="flex-1 min-w-0">
+              <OrderNow />
+            </div>
           </div>
           <div className="flex justify-center mt-12">
             <div
