@@ -3,8 +3,10 @@
 import { useTheme } from "./ThemeContext";
 import FlavorShowcase from "./components/FlavorShowcase";
 import WhatsappEnquiryForm from "./components/WhatsappEnquiryForm";
+import OrderNow from "./components/OrderNow";
 import FindUsSection from "./components/FindUsSection";
 import TestimonialsSection from "./components/TestimonialsSection";
+import Footer from "./components/Footer";
 
 export default function Home() {
   return (
@@ -41,8 +43,7 @@ export default function Home() {
             craft the most delicious and healthful kombucha using traditional
             brewing methods and the finest organic ingredients. healthful
             kombucha using traditional brewing methods and the finest organic
-            ingredients. We use 100% organic ingredients and traditional brewing
-            methods to ensure the highest quality kombucha
+            ingredients.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-12">
             <div
@@ -107,10 +108,11 @@ export default function Home() {
           </p>
           <div className="flex justify-center mb-8">
             <WhatsappEnquiryForm />
+            <OrderNow />
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-12">
+          <div className="flex justify-center mt-12">
             <div
-              className="p-6 rounded-lg"
+              className="p-6 rounded-lg max-w-md"
               style={{
                 backgroundColor: "var(--accent-color)20",
                 border: "1px solid var(--accent-color)40",
@@ -118,31 +120,19 @@ export default function Home() {
             >
               <h3 className="text-2xl font-semibold mb-4">Contact Info</h3>
               <p className="mb-2">Email: info@malabarkombucha.com</p>
-              <p className="mb-2">Phone: (555) 123-4567</p>
+              <p className="mb-2">Phone: 9447151040</p>
               <p className="mb-2">
                 WhatsApp:{" "}
                 <a
-                  href="https://wa.me/919496826294"
+                  href="https://wa.me/917994160473"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-green-600 underline hover:text-green-800"
                 >
-                  +91 94968 26294
+                  +91 79941 60473
                 </a>
               </p>
-              <p>Address: 123 Kombucha Lane, Portland, OR</p>
-            </div>
-            <div
-              className="p-6 rounded-lg"
-              style={{
-                backgroundColor: "var(--accent-color)20",
-                border: "1px solid var(--accent-color)40",
-              }}
-            >
-              <h3 className="text-2xl font-semibold mb-4">Business Hours</h3>
-              <p className="mb-2">Monday - Friday: 9am - 5pm</p>
-              <p className="mb-2">Saturday: 10am - 4pm</p>
-              <p>Sunday: Closed</p>
+              <p>Address: Skyline Marine Gate Beach P.O, Calicut </p>
             </div>
           </div>
         </div>
@@ -152,6 +142,7 @@ export default function Home() {
 
       {/* Testimonials Section */}
       <TestimonialsSection />
+      <Footer />
     </main>
   );
 }
