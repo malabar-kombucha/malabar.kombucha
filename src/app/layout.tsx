@@ -27,8 +27,8 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <meta property="og:logo" content="/favicon.svg" />
+        <link rel="icon" href="/favicon.ico" type="image/svg+xml" />
+        <meta property="og:logo" content="/favicon.ico" />
 
         {/* Primary Meta Tags */}
         <title>Malabar Kombucha | Handcrafted Probiotic Healthy Drink</title>
@@ -63,7 +63,7 @@ export default function RootLayout({
               "@type": "Organization",
               "name": "Malabar Kombucha",
               "url": "https://malabarkombucha.com/",
-              "logo": "https://malabarkombucha.com/favicon.svg",
+              "logo": "https://malabarkombucha.com/favicon.ico",
               "sameAs": [
                 "https://www.instagram.com/malabarkombucha"
               ],

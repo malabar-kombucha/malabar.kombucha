@@ -146,7 +146,7 @@ export default function Home() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl sm:text-5xl font-bold mb-6">Our Story</h2>
           <p className="text-xl sm:text-2xl mb-8">
-            Founded in 2020, Malabar Kombucha began with a simple mission: to
+            Founded in 2023, Malabar Kombucha began with a simple mission: to
             craft the most delicious and healthful kombucha using traditional
             brewing methods and the finest organic ingredients. healthful
             kombucha using traditional brewing methods and the finest organic

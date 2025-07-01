@@ -105,20 +105,23 @@ export default function OrderNow() {
   }, [locationPermissionAsked]);
 
   const availableFlavors: FlavorOption[] = [
-    { name: "Beet", price: 100 },
-    { name: "Coco", price: 120 },
-    { name: "Grape", price: 110 },
-    { name: "Orange", price: 105 },
-    { name: "Pome", price: 115 },
-    { name: "Blue", price: 125 },
-    { name: "Ginger", price: 130 },
-    { name: "Mango", price: 115 },
-    { name: "Passion", price: 140 },
-    { name: "Straw", price: 120 },
-    { name: "Classic", price: 100 },
-    { name: "Goose", price: 135 },
-    { name: "Nutmeg", price: 125 },
-    { name: "Pina", price: 130 }
+    { name: "Beet", price: 180 },
+    { name: "Coco", price: 180 },
+    { name: "Grape", price: 180 },
+    { name: "Orange", price: 180 },
+    { name: "Pome", price: 180 },
+    { name: "Blue", price: 200 },
+    { name: "Malabar", price: 200 },
+    { name: "Red Fairy", price: 200 },
+    { name: "Dark Godess", price: 200 },
+    { name: "Ginger", price: 180 },
+    { name: "Mango", price: 180 },
+    { name: "Passion", price: 180 },
+    { name: "Straw", price: 200 },
+    { name: "Classic", price: 180 },
+    { name: "Goose", price: 180 },
+    { name: "Nutmeg", price: 180 },
+    { name: "Pina", price: 180 }
   ];
 
   const formatPhoneNumber = (value: string): string => {
