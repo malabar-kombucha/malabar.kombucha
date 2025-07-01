@@ -35,6 +35,15 @@ export default function OrderNow() {
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [locationPermissionAsked, setLocationPermissionAsked] = useState(false);
   const [prettyLocation, setPrettyLocation] = useState<string | null>(null);
+  const [pendingSubmission, setPendingSubmission] = useState(false);
+
+  // After location is fetched and modal closes, send WhatsApp message if pendingSubmission is true
+  React.useEffect(() => {
+    if (!showLocationModal && pendingSubmission && locationPermissionAsked) {
+      setPendingSubmission(false);
+      sendWhatsAppMessage();
+    }
+  }, [showLocationModal, pendingSubmission, locationPermissionAsked]);
 
   const { currentTheme } = useTheme();
 
@@ -59,7 +68,8 @@ export default function OrderNow() {
     }
   };
 
-  const requestLocation = () => {
+  // Request location and call onSuccess after location is fetched
+  const requestLocation = (onSuccess?: () => void) => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
@@ -73,9 +83,15 @@ export default function OrderNow() {
           const locName = await fetchLocationName(location.latitude, location.longitude);
           setPrettyLocation(locName);
           setShowLocationModal(false);
+          if (onSuccess) {
+            onSuccess();
+          }
         },
         (error) => {
           setShowLocationModal(false);
+          if (onSuccess) {
+            onSuccess();
+          }
         },
         {
           enableHighAccuracy: true,
@@ -85,24 +101,28 @@ export default function OrderNow() {
       );
     } else {
       setShowLocationModal(false);
+      if (onSuccess) {
+        onSuccess();
+      }
     }
   };
 
   const handleLocationPermission = (allow: boolean) => {
     if (allow) {
-      requestLocation();
+      // After location is set, proceed to send WhatsApp message if pendingSubmission
+      requestLocation(() => {
+        if (pendingSubmission) {
+          setPendingSubmission(false);
+          sendWhatsAppOrder();
+        }
+      });
     } else {
       setShowLocationModal(false);
+      if (pendingSubmission) setPendingSubmission(false);
     }
   };
 
-  useEffect(() => {
-    // Show location permission popup when component mounts
-    if (!locationPermissionAsked) {
-      setShowLocationModal(true);
-      setLocationPermissionAsked(true);
-    }
-  }, [locationPermissionAsked]);
+  // Removed useEffect that shows location permission popup on mount
 
   const availableFlavors: FlavorOption[] = [
     { name: "Beet", price: 180 },
@@ -257,6 +277,29 @@ export default function OrderNow() {
       return;
     }
 
+    // If location permission hasn't been asked, show the modal and stop submission
+    if (!locationPermissionAsked) {
+      setShowLocationModal(true);
+      setLocationPermissionAsked(true);
+      setPendingSubmission(true);
+      return;
+    }
+
+    sendWhatsAppOrder();
+  };
+
+  // Extracted WhatsApp order sending logic for reuse
+  const sendWhatsAppOrder = () => {
+    const orderDetails = orderItems.map(item =>
+      `${item.quantity}x ${item.flavor} - ₹${item.price} each = ₹${item.quantity * item.price}`
+    ).join('%0A');
+
+    const totalAmount = calculateTotal();
+
+    sendWhatsAppMessage();
+  };
+
+  const sendWhatsAppMessage = () => {
     const orderDetails = orderItems.map(item =>
       `${item.quantity}x ${item.flavor} - ₹${item.price} each = ₹${item.quantity * item.price}`
     ).join('%0A');

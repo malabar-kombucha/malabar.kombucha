@@ -231,7 +231,7 @@ export default function Home() {
             >
               <h3 className="text-2xl font-semibold mb-4">Contact Info</h3>
               <p className="mb-2">Email: info@malabarkombucha.com</p>
-              <p className="mb-2">Phone: 9447151040</p>
+              <p className="mb-2">Phone: <a href="tel:9447151040" className="text-blue-600 underline hover:text-blue-800">+91 9447151040</a></p>
               <p className="mb-2">
                 WhatsApp:{" "}
                 <a

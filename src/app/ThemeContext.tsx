@@ -81,7 +81,7 @@ export const themes = [
     accent: "#ffd3a3",
     text: "#1a1a1a",
     description: "Citrusy • Bright • Fresh",
-    bottleImage: "/images/bottles/orange.png",
+    bottleImage: "/images/bottles/orange.webp",
   },
   {
     name: "PASSION",
@@ -99,7 +99,7 @@ export const themes = [
     accent: "#e0e59f",
     text: "#ffffff",
     description: "Tart • Refreshing • Zingy",
-    bottleImage: "/images/bottles/goose.png",
+    bottleImage: "/images/bottles/goose.webp",
   },
   {
     name: "GINGER",
@@ -108,7 +108,7 @@ export const themes = [
     accent: "#e6d5b9",
     text: "#ffffff",
     description: "Spicy • Invigorating • Fresh",
-    bottleImage: "/images/bottles/ginger.png",
+    bottleImage: "/images/bottles/ginger.webp",
   },
   {
     name: "NUTMEG",
